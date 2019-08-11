@@ -1,0 +1,38 @@
+button:focus{
+    outline: none;
+}
+
+.cart-button{
+    align-self: center;
+    background-color: #fafafa;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    color: #2f2a2d;
+    border-radius: 5px;
+    transition: all ease-in-out .4s;
+    cursor: pointer;
+}
+
+.cart-button:hover{
+    background-color: transparent;
+    border-color: #fafafa;
+    color: #fafafa;
+}
+
+.goods-list{
+    column-gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-rows: 1fr;
+    padding: 40px 80px;
+    justify-content: space-between;
+}
+
+.goods-item{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 20px 0;
+}
