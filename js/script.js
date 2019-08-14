@@ -32,9 +32,16 @@ const renderGoodsList = (list) => {
     
     В нашем случае лучше выводить элементы по-отдельности.
     */
+
+    /* Старый код, используем метод join() по совету преподавателя
     goodsList.forEach(element => {
         document.querySelector('.goods-list').innerHTML += element;
     });
+    */
+
+    let goodsListString = goodsList.join();
+    document.querySelector('.goods-list').innerHTML = goodsListString
+    
 }
 
 renderGoodsList(goods);
