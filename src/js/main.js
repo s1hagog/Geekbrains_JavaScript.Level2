@@ -12,9 +12,11 @@ let app = new Vue({
         catalogURL: '/catalogData.json',
         products: [],
         filteredProducts: [],
+        cartProducts: [],
         imgCatalog: 'https://placehold.it/200x150',
         userSearch: '',
-        isFiltered: false
+        isFiltered: false,
+        isVisibleCart: false
     },
     methods: {
         getJSON (url) {
@@ -25,7 +27,8 @@ let app = new Vue({
                 })
         },
         addProduct (product) {
-            console.log(product.id_product)
+            console.log(product.id_product);
+            this.cartProducts.push(product);
         },
         execSearch() {
             this.isFiltered = true;
@@ -37,6 +40,9 @@ let app = new Vue({
                     this.filteredProducts.push(product);
                 }
             }
+        },
+        showCart(){
+            this.isVisibleCart = !this.isVisibleCart;
         }
     },
     mounted () {
@@ -114,20 +120,20 @@ let app = new Vue({
 // 		this.quantity = el.quantity
 // 	}
 // 	render () {
-// 		return `<div class="cart-item" data-id="${this.id_product}">
-// 					<div class="product-bio">
-// 						<img src="${this.img}" alt="Some image">
-// 						<div class="product-desc">
-// 							<p class="product-title">${this.product_name}</p>
-// 							<p class="product-quantity">Quantity: ${this.quantity}</p>
-// 							<p class="product-single-price">$${this.price} each</p>
-// 						</div>
-// 					</div>
-// 					<div class="right-block">
-// 						<p class="product-price">${this.quantity * this.price}</p>
-// 						<button class="del-btn" data-id="${this.id_product}">&times;</button>
-// 					</div>
-// 				</div>`
+		// return `<div class="cart-item" data-id="${this.id_product}">
+		// 			<div class="product-bio">
+		// 				<img src="${this.img}" alt="Some image">
+		// 				<div class="product-desc">
+		// 					<p class="product-title">${this.product_name}</p>
+		// 					<p class="product-quantity">Quantity: ${this.quantity}</p>
+		// 					<p class="product-single-price">$${this.price} each</p>
+		// 				</div>
+		// 			</div>
+		// 			<div class="right-block">
+		// 				<p class="product-price">${this.quantity * this.price}</p>
+		// 				<button class="del-btn" data-id="${this.id_product}">&times;</button>
+		// 			</div>
+		// 		</div>`
 // 	}
 // }
 
