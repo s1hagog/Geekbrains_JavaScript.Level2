@@ -5,6 +5,8 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
+import cart from './cartComp';
+
 
 let app = new Vue({
     el: '#app',
@@ -12,9 +14,13 @@ let app = new Vue({
         catalogURL: '/catalogData.json',
         products: [],
         filteredProducts: [],
+        cartProducts: [],
         imgCatalog: 'https://placehold.it/200x150',
-        // userSearch: '',
-        // isFiltered: false
+        userSearch: '',
+        isFiltered: false
+    },  
+    components: {
+        cart
     },
     methods: {
         getJSON (url) {
@@ -25,19 +31,20 @@ let app = new Vue({
                 })
         },
         addProduct (product) {
-            console.log(product.id_product)
+            console.log(product.id_product);
+            this.cartProducts.push(product);
         },
-        // execSearch() {
-        //     this.isFiltered = true;
-        //     this.filteredProducts = [];
-        //     let regexp = new RegExp(this.userSearch, 'i');
+        execSearch() {
+            this.isFiltered = true;
+            this.filteredProducts = [];
+            let regexp = new RegExp(this.userSearch, 'i');
 
-        //     for(let product of this.products){
-        //         if(regexp.test(product.product_name)){
-        //             this.filteredProducts.push(product);
-        //         }
-        //     }
-        // }
+            for(let product of this.products){
+                if(regexp.test(product.product_name)){
+                    this.filteredProducts.push(product);
+                }
+            }
+        }
     },
     mounted () {
         this.getJSON(`${API + this.catalogURL}`)
@@ -48,6 +55,8 @@ let app = new Vue({
             })
     }
 });
+
+export default app;
 
 // class List {
 // 	constructor (url, container) {
@@ -114,20 +123,20 @@ let app = new Vue({
 // 		this.quantity = el.quantity
 // 	}
 // 	render () {
-// 		return `<div class="cart-item" data-id="${this.id_product}">
-// 					<div class="product-bio">
-// 						<img src="${this.img}" alt="Some image">
-// 						<div class="product-desc">
-// 							<p class="product-title">${this.product_name}</p>
-// 							<p class="product-quantity">Quantity: ${this.quantity}</p>
-// 							<p class="product-single-price">$${this.price} each</p>
-// 						</div>
-// 					</div>
-// 					<div class="right-block">
-// 						<p class="product-price">${this.quantity * this.price}</p>
-// 						<button class="del-btn" data-id="${this.id_product}">&times;</button>
-// 					</div>
-// 				</div>`
+		// return `<div class="cart-item" data-id="${this.id_product}">
+		// 			<div class="product-bio">
+		// 				<img src="${this.img}" alt="Some image">
+		// 				<div class="product-desc">
+		// 					<p class="product-title">${this.product_name}</p>
+		// 					<p class="product-quantity">Quantity: ${this.quantity}</p>
+		// 					<p class="product-single-price">$${this.price} each</p>
+		// 				</div>
+		// 			</div>
+		// 			<div class="right-block">
+		// 				<p class="product-price">${this.quantity * this.price}</p>
+		// 				<button class="del-btn" data-id="${this.id_product}">&times;</button>
+		// 			</div>
+		// 		</div>`
 // 	}
 // }
 
@@ -154,51 +163,51 @@ let app = new Vue({
 // 		this.getJSON()
 // 			.then (data => this.handleData(data.contents))
 // 	}
-// 	addProduct (element) {
-// 		this.getJSON (`${API}/addToBasket.json`)
-// 			.then (data => {
-// 				if (data.result) {
-// 					let productId = +element.dataset['id'];
-// 					let find = this.allProducts.find (product => product.id_product === productId)
+	// addProduct (element) {
+	// 	this.getJSON (`${API}/addToBasket.json`)
+	// 		.then (data => {
+	// 			if (data.result) {
+	// 				let productId = +element.dataset['id'];
+	// 				let find = this.allProducts.find (product => product.id_product === productId)
 
-// 					if (!find) {
-// 						let product = {
-// 							product_name: element.dataset['name'],
-// 							id_product: productId,
-// 							price: +element.dataset['price'],
-// 							quantity: 1
-// 						}
-// 						this.goods = [product];
-//                         this.render()
-// 					} else {
-// 						find.quantity++
-// 						this._updateCart(find)
-// 					}
-// 				} else {
-// 					debugger
-// 					console.log ('err')
-// 				}
-// 			})
-// 	}
-// 	removeProduct (element) {
-// 		this.getJSON (`${API}/deleteFromBasket.json`)
-// 			.then (data => {
-// 				if (data.result) {
-// 					let productId = +element.dataset['id'];
-// 					let find = this.allProducts.find (product => product.id_product === productId)
+	// 				if (!find) {
+	// 					let product = {
+	// 						product_name: element.dataset['name'],
+	// 						id_product: productId,
+	// 						price: +element.dataset['price'],
+	// 						quantity: 1
+	// 					}
+	// 					this.goods = [product];
+    //                     this.render()
+	// 				} else {
+	// 					find.quantity++
+	// 					this._updateCart(find)
+	// 				}
+	// 			} else {
+	// 				debugger
+	// 				console.log ('err')
+	// 			}
+	// 		})
+	// }
+	// removeProduct (element) {
+	// 	this.getJSON (`${API}/deleteFromBasket.json`)
+	// 		.then (data => {
+	// 			if (data.result) {
+	// 				let productId = +element.dataset['id'];
+	// 				let find = this.allProducts.find (product => product.id_product === productId)
 
-// 					if (find.quantity > 1) {
-// 						find.quantity--
-// 						this._updateCart(find)
-// 					} else {
-// 						this.allProducts.splice (this.allProducts.indexOf(find), 1)
-// 						document.querySelector (`.cart-item[data-id="${productId}"]`).remove ()
-// 					}
-// 				} else {
-// 					console.log ('err')
-// 				}
-// 			})
-// 	}
+	// 				if (find.quantity > 1) {
+	// 					find.quantity--
+	// 					this._updateCart(find)
+	// 				} else {
+	// 					this.allProducts.splice (this.allProducts.indexOf(find), 1)
+	// 					document.querySelector (`.cart-item[data-id="${productId}"]`).remove ()
+	// 				}
+	// 			} else {
+	// 				console.log ('err')
+	// 			}
+	// 		})
+	// }
 // 	_updateCart (product) {
 // 		let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`)
 // 		block.querySelector('.product-quantity').textContent = `Quantity: ${product.quantity}`
