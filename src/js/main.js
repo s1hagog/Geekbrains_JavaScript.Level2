@@ -5,6 +5,8 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
+import cart from './cartComp';
+
 
 let app = new Vue({
     el: '#app',
@@ -15,8 +17,10 @@ let app = new Vue({
         cartProducts: [],
         imgCatalog: 'https://placehold.it/200x150',
         userSearch: '',
-        isFiltered: false,
-        isVisibleCart: false
+        isFiltered: false
+    },  
+    components: {
+        cart
     },
     methods: {
         getJSON (url) {
@@ -40,9 +44,6 @@ let app = new Vue({
                     this.filteredProducts.push(product);
                 }
             }
-        },
-        showCart(){
-            this.isVisibleCart = !this.isVisibleCart;
         }
     },
     mounted () {
@@ -54,6 +55,8 @@ let app = new Vue({
             })
     }
 });
+
+export default app;
 
 // class List {
 // 	constructor (url, container) {
@@ -160,51 +163,51 @@ let app = new Vue({
 // 		this.getJSON()
 // 			.then (data => this.handleData(data.contents))
 // 	}
-// 	addProduct (element) {
-// 		this.getJSON (`${API}/addToBasket.json`)
-// 			.then (data => {
-// 				if (data.result) {
-// 					let productId = +element.dataset['id'];
-// 					let find = this.allProducts.find (product => product.id_product === productId)
+	// addProduct (element) {
+	// 	this.getJSON (`${API}/addToBasket.json`)
+	// 		.then (data => {
+	// 			if (data.result) {
+	// 				let productId = +element.dataset['id'];
+	// 				let find = this.allProducts.find (product => product.id_product === productId)
 
-// 					if (!find) {
-// 						let product = {
-// 							product_name: element.dataset['name'],
-// 							id_product: productId,
-// 							price: +element.dataset['price'],
-// 							quantity: 1
-// 						}
-// 						this.goods = [product];
-//                         this.render()
-// 					} else {
-// 						find.quantity++
-// 						this._updateCart(find)
-// 					}
-// 				} else {
-// 					debugger
-// 					console.log ('err')
-// 				}
-// 			})
-// 	}
-// 	removeProduct (element) {
-// 		this.getJSON (`${API}/deleteFromBasket.json`)
-// 			.then (data => {
-// 				if (data.result) {
-// 					let productId = +element.dataset['id'];
-// 					let find = this.allProducts.find (product => product.id_product === productId)
+	// 				if (!find) {
+	// 					let product = {
+	// 						product_name: element.dataset['name'],
+	// 						id_product: productId,
+	// 						price: +element.dataset['price'],
+	// 						quantity: 1
+	// 					}
+	// 					this.goods = [product];
+    //                     this.render()
+	// 				} else {
+	// 					find.quantity++
+	// 					this._updateCart(find)
+	// 				}
+	// 			} else {
+	// 				debugger
+	// 				console.log ('err')
+	// 			}
+	// 		})
+	// }
+	// removeProduct (element) {
+	// 	this.getJSON (`${API}/deleteFromBasket.json`)
+	// 		.then (data => {
+	// 			if (data.result) {
+	// 				let productId = +element.dataset['id'];
+	// 				let find = this.allProducts.find (product => product.id_product === productId)
 
-// 					if (find.quantity > 1) {
-// 						find.quantity--
-// 						this._updateCart(find)
-// 					} else {
-// 						this.allProducts.splice (this.allProducts.indexOf(find), 1)
-// 						document.querySelector (`.cart-item[data-id="${productId}"]`).remove ()
-// 					}
-// 				} else {
-// 					console.log ('err')
-// 				}
-// 			})
-// 	}
+	// 				if (find.quantity > 1) {
+	// 					find.quantity--
+	// 					this._updateCart(find)
+	// 				} else {
+	// 					this.allProducts.splice (this.allProducts.indexOf(find), 1)
+	// 					document.querySelector (`.cart-item[data-id="${productId}"]`).remove ()
+	// 				}
+	// 			} else {
+	// 				console.log ('err')
+	// 			}
+	// 		})
+	// }
 // 	_updateCart (product) {
 // 		let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`)
 // 		block.querySelector('.product-quantity').textContent = `Quantity: ${product.quantity}`
